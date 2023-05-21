@@ -19,21 +19,21 @@ for a specified author's name and email. This could be useful for maintaining yo
 
 ## Installation
 
-Firstly, clone this repository and navigate into it:
+Clone this repository and navigate into it:
 
 ```bash
 git clone https://github.com/NeedToUpdate/git-confidential-cloner.git
 cd git-confidential-cloner
 ```
 
-It's recommended to use a virtual environment to isolate your Python dependencies. Here's how you can do it:
+It's recommended to use a virtual environment to isolate your Python dependencies:
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 ```
 
-Then, install the required dependencies:
+Then, install the required dependencies (`tqdm` and `gitpython`):
 
 ```bash
 pip install -r requirements.txt
@@ -44,7 +44,7 @@ pip install -r requirements.txt
 You can run the script using the following command:
 
 ```bash
-python clone.py --source /path/to/source --dest /path/to/destination --author_name "Your Name" --author_email "Your Email"
+python clone.py -s /path/to/source -d /path/to/destination -n "Your Name" -e "Your Email"
 ```
 
 ### Arguments
