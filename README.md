@@ -3,13 +3,13 @@
 This Python script allows you to clone a Git repository, anonymizing all data while keeping the commit history intact. The script replaces all file content, commit messages, author names, author emails, branch names, and tag names, except
 for a specified author's name and email.
 
-This could be useful for maintaining your nice green boxes on GitHub, while keeping the actual work confidential.  
+This could be useful for maintaining your nice green boxes on GitHub, while keeping the actual work confidential.
 
 This was mostly created because github does not keep your git history when you leave an organization. Hopefully they can add that in the future and make this script obsolete. I just like the color green.
 
 ## Disclaimer
 
-You should check with your employment contract if this is allowed.
+You should check with your employer / employment contract if this is allowed.
 
 Before you use the script, make sure you have a backup of your important data and understand what the script does. Please note that the script deletes the contents of the destination directory if it exists.
 
