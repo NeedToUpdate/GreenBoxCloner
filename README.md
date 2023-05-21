@@ -1,7 +1,23 @@
-# Git Confidential Cloner
+# Confidential Cloner
 
 This Python script allows you to clone a Git repository, anonymizing all data while keeping the commit history intact. The script replaces all file content, commit messages, author names, author emails, branch names, and tag names, except
-for a specified author's name and email. This could be useful for maintaining your green boxes on GitHub, while keeping the actual work confidential.
+for a specified author's name and email.
+
+This could be useful for maintaining your nice green boxes on GitHub, while keeping the actual work confidential.
+
+## Disclaimer
+
+You should check with your employment contract if this is allowed.
+
+Before you use the script, make sure you have a backup of your important data and understand what the script does. Please note that the script deletes the contents of the destination directory if it exists.
+
+The creator of this script and the contributors to this project are not responsible for any damage, data loss, or any other negative consequences that may occur as a result of using this script.
+
+This script is intended for educational and informational purposes, and it's your responsibility to use it in accordance with all applicable laws and regulations.
+
+Remember that violating other people's privacy or intellectual property rights is not only against the law but also against the principles of open-source and mutual respect in the developer community.
+
+This script also will only work with smaller, <3000 commit repos. Any larger and upload times could get really time consuming.
 
 ## Features
 
