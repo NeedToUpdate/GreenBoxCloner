@@ -9,7 +9,7 @@ This was mostly created because github does not keep your git history when you l
 
 ## Disclaimer
 
-You should check with your employer / employment contract if this is allowed.
+You should check with your project owner/employer/employment contract if this is allowed.
 
 Before you use the script, make sure you have a backup of your important data and understand what the script does. Please note that the script deletes the contents of the destination directory if it exists.
 
