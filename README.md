@@ -69,15 +69,15 @@ python clone.py -s /path/to/source -d /path/to/destination -n "Your Name" -e "Yo
 
 - `--source`: Path to the source repository (required)
 - `--dest`: Path to the destination repository (required)
-- `--author_name`: Author name to be preserved (required)
-- `--author_email`: Author email to be preserved (required)
-- `--replace_name`: Replacement for other author names (optional)
-- `--replace_email`: Replacement for other author emails (optional)
-- `--expunged_name`: The name set to everyone else in the repo (optional, default: "[Expunged]")
-- `--expunged_email`: The email set to everyone else in the repo (optional, default: "expunged@email.com")
-- `--expunged_commit`: The message set for every commit (optional, default: "[commit message removed for confidentiality]")
-- `--expunged_branch`: The branch name prefix, each branch will end with its index number (optional, default: "expunged-branch-")
-- `--expunged_tag`: The tag name prefix, each tag will end with its index number (optional, default: "expunged-tag-")
+- `--author-name`: Author name to be preserved (required)
+- `--author-email`: Author email to be preserved (required)
+- `--replace-name`: Replacement for other author names (optional)
+- `--replace-email`: Replacement for other author emails (optional)
+- `--expunged-name`: The name set to everyone else in the repo (optional, default: "[Expunged]")
+- `--expunged-email`: The email set to everyone else in the repo (optional, default: "expunged@email.com")
+- `--expunged-commit`: The message set for every commit (optional, default: "[commit message removed for confidentiality]")
+- `--expunged-branch`: The branch name prefix, each branch will end with its index number (optional, default: "expunged-branch-")
+- `--expunged-tag`: The tag name prefix, each tag will end with its index number (optional, default: "expunged-tag-")
 
 ---
 
