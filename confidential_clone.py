@@ -1,4 +1,4 @@
-from git import Repo, Actor
+from git import Repo, Actor,GitCommandError
 import shutil
 import os
 import argparse
@@ -7,17 +7,20 @@ from tqdm import tqdm
 
 parser = argparse.ArgumentParser(description="Clone a git repo with anonymized data, to keep your beautiful green boxes.")
 
-parser.add_argument("-s", "--source", required=True, help="Path to the source repository.")
-parser.add_argument("-d", "--dest", required=True, help="Path to the destination repository.")
-parser.add_argument("-n", "--author_name", required=True, help="Author name to be preserved.")
-parser.add_argument("-e", "--author_email", required=True, help="Author email to be preserved.")
-parser.add_argument("-rn", "--replace_name", default=None, help="Replacement for other author name.")
-parser.add_argument("-re", "--replace_email", default=None, help="Replacement for other author email.")
-parser.add_argument("-en", "--expunged_name", default="[Expunged]", help="The name set to everyone else in the repo.")
-parser.add_argument("-ee", "--expunged_email", default="expunged@email.com", help="The email set to everyone else in the repo.")
-parser.add_argument("-ec", "--expunged_commit", default="[commit message removed for confidentiality]", help="The message set for every commit.")
-parser.add_argument("-eb", "--expunged_branch", default="expunged-branch-", help="The branch name, which will end with its index number.")
-parser.add_argument("-et", "--expunged_tag", default="expunged-tag-", help="The tag name, which will end with its index number.")
+parser.add_argument("-s", "--source", dest="source", required=True, help="Path to the source repository.")
+parser.add_argument("-d", "--dest", dest="dest", required=True, help="Path to the destination repository.")
+parser.add_argument("-n", "--author-name", dest="author_name", required=True, help="Author name to be preserved.")
+parser.add_argument("-e", "--author-email", dest="author_email", required=True, help="Author email to be preserved.")
+parser.add_argument("-rn", "--replace-name", dest="replace_name", default=None, help="Replacement for other author name.")
+parser.add_argument("-re", "--replace-email", dest="replace_email", default=None, help="Replacement for other author email.")
+parser.add_argument("-en", "--expunged-name", dest="expunged_name", default="Expunged", help="The name set to everyone else in the repo.")
+parser.add_argument("-ee", "--expunged-email", dest="expunged_email", default="expunged@email.com", help="The email set to everyone else in the repo.")
+parser.add_argument("-ec", "--expunged-commit", dest="expunged_commit", default="[commit message removed for confidentiality]", help="The message set for every commit.")
+parser.add_argument("-eb", "--expunged-branch", dest="expunged_branch", default="expunged-branch-", help="The branch name, which will end with its index number.")
+parser.add_argument("-et", "--expunged-tag", dest="expunged_tag", default="expunged-tag-", help="The tag name, which will end with its index number.")
+parser.add_argument("--merge-all", dest="merge_all", action='store_true', help="If set, all branches will be merged into the main branch.")
+
+
 
 
 args = parser.parse_args()
@@ -41,10 +44,25 @@ if os.path.exists(dest_repo_path):
 
 # Create a new repository
 dest_repo = Repo.init(dest_repo_path)
+readme_file = "README.md"
+with open(os.path.join(dest_repo_path, readme_file), 'a'):
+    os.utime(os.path.join(dest_repo_path, readme_file), None)
 
+author = Actor(replace_name, replace_email)
+dest_repo.index.add([readme_file])
+dest_repo.index.commit('Initial commit', author=author, committer=author)
+# Set config details
+with dest_repo.config_writer() as git_config:
+    git_config.set_value('user', 'name', replace_name)
+    git_config.set_value('user', 'email', replace_email)
 # Open the source repository
 source_repo = Repo(source_repo_path)
 
+# Rename the default branch to 'main'
+dest_repo.git.branch('-M', 'main')
+
+main_branch_name = 'main'
+main_branch = dest_repo.create_head(main_branch_name)
 # This dictionary will map each commit in the source repo to its replicated commit in the destination repo
 commit_map = {}
 
@@ -124,5 +142,21 @@ if(len(source_repo.tags)):
 
 for remote in list(dest_repo.remotes):
     dest_repo.delete_remote(remote)
+
+
+# Merge all branches into the main branch and delete them afterwards if merge_all is set to True
+if args.merge_all:
+    print('Merging all and deleting.')
+    branches_to_merge = [branch for branch in dest_repo.branches if branch != main_branch]
+    for branch in tqdm(branches_to_merge, desc='Merging and deleting branches', unit='branch',bar_format="{desc}: {n_fmt}/{total_fmt} |{bar}|"):
+        dest_repo.git.checkout(main_branch_name)
+        try:
+            dest_repo.git.merge(branch, strategy_option='theirs')
+        except GitCommandError:
+            print(f"Failed to merge {branch}. Resolving conflicts by favoring 'theirs'.")
+            dest_repo.git.checkout('--', '.')
+            dest_repo.git.commit('-m', f"Merge {branch} resolving conflicts by favoring 'theirs'.")
+        dest_repo.delete_head(branch, '-D')
+
 
 print('Done.')
