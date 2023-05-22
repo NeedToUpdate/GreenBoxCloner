@@ -71,7 +71,7 @@ def expunge_name(name):
     return replace_name if name == author_name else expunged_name
 
 def expunge_email(email):
-    return replace_email if email == author_email else expunge_email
+    return replace_email if email == author_email else expunged_email
 
 
 total_commits = sum(1 for _ in source_repo.iter_commits())
