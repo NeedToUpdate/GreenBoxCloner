@@ -1,4 +1,4 @@
-# Confidential Cloner
+# Green Box Cloner
 
 This Python script allows you to "clone" a Git repository, anonymizing all data while keeping the commit time history intact. The script replaces all file content, commit messages, author names, author emails, branch names, and tag names, except for a specified author's name and email. This essentially copies the green boxes from the repo, and nothing else.
 
