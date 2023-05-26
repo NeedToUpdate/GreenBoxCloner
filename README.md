@@ -37,8 +37,8 @@ Remember that violating other people's privacy or intellectual property rights i
 Clone this repository and navigate into it:
 
 ```bash
-git clone https://github.com/NeedToUpdate/git-confidential-cloner.git
-cd git-confidential-cloner
+git clone https://github.com/NeedToUpdate/GreenBoxCloner.git
+cd GreenBoxCloner
 ```
 
 It's recommended to use a virtual environment to isolate your Python dependencies:
